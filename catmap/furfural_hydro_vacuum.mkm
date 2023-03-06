@@ -1,0 +1,56 @@
+#specify reaction steps
+rxn_expressions = [
+               '* + FCHO_g -> FCHO*', #adsorption of fal
+               'FCHO* + H* <-> FCHO-H*+*_s -> FCHOH*+*_s', #int1
+               'FCHO* + H* <-> FCH-HO*+*_s -> FCH2O*+*_s', #int2
+               'FCHOH* + H* <-> FCHOH-H*+*_s -> FCH2OH*+*_s', 
+               'FCH2O* + H* <-> FCH2O-H*+*_s-> FCH2OH*+*_s',
+               'FCH2OH* -> FCH2OH_g + *_s', #desorption of fol
+                'H2_g + 2*_s <-> H-H* + *_s -> 2H*', # H-H activation
+                'H2O_g -> H2O_g', #dummy
+                'CH4_g -> CH4_g', #dummy
+                   ]
+
+prefactor_list = [1e13]*len(rxn_expressions)
+
+surface_names = ['Ag','Au','Cu','Ir','Ni','Pd','Pt','Rh','Ru']
+descriptor_names= ['FCHO_s','H_s']
+descriptor_ranges = [[-2,0.5],[-0.6,0.5]]
+resolution = [8,6]
+temperature = 300
+
+species_definitions = {}
+species_definitions['H2_g'] = {'pressure':1}
+species_definitions['FCHO_g'] = {'pressure':0.003}
+species_definitions['FCH2OH_g'] = {'pressure':0.00001}
+
+species_definitions['s'] = {'site_names': ['111'], 'total':1}
+species_definitions['CH4_g'] = {'pressure':0}
+species_definitions['H2O_g'] = {'pressure':0}
+
+scaling_constraint_dict = {
+                           'H_s':[None,1,None],
+                          #'pe-H_s':'initial_state',
+                           'H-H_s':'BEP',
+                           'FCHO_s':[1,None,None],
+                           'FCHOH_s':['+',None,None],
+                           'FCH2O_s':['+',None,None],
+                           'FCH2OH_s':['+',None,None],
+                           'FCHO-H_s':'BEP',
+                           'FCH-HO_s':'BEP',
+                           'FCHOH-H_s':'BEP',
+                           'FCH2O-H_s':'BEP',
+                           }
+
+data_file = 'furfural_hydro.pkl'
+
+#free_energy_corrections
+input_file = 'input'
+
+gas_thermo_mode = "frozen_gas"
+adsorbate_thermo_mode = "frozen_adsorbate"
+decimal_precision = 200 #precision of numbers involved
+tolerance = 1e-50 #all d_theta/d_t's must be less than this at the solution
+max_rootfinding_iterations = 500
+max_bisections = 5
+  

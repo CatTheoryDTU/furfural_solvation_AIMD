@@ -1,0 +1,416 @@
+from numpy import array
+
+try:
+    import cPickle as pickle
+
+except: #workaround for python3.X
+    import _pickle as pickle
+
+
+from mpmath import mpf 
+
+parser = None
+
+scaler = 'GeneralizedLinearScaler'
+
+thermodynamics = 'ThermoCorrections'
+
+solver = 'SteadyStateSolver'
+
+mapper = 'MinResidMapper'
+
+binary_data = pickle.load(open("furfural_hydro.pkl","rb"))
+
+locals().update(binary_data)
+
+A_uc = None
+
+adsorbate_coefficient_matrix = array([[ 0.85585, -0.02896, -0.29579],
+       [ 0.81298,  0.62814,  0.06518],
+       [ 0.98509,  0.47523,  0.15232],
+       [ 1.     ,  0.     ,  0.     ],
+       [ 0.     ,  1.     ,  0.     ]])
+
+adsorbate_interaction_model = 'ideal'
+
+adsorbate_interactions = None
+
+adsorbate_names = ('FCH2OH_s', 'FCH2O_s', 'FCHOH_s', 'FCHO_s', 'H_s')
+
+adsorbate_thermo_mode = 'frozen_adsorbate'
+
+analytical_jacobian = True
+
+atomic_reservoir_dict = {'H': 'H2_g', 'C': 'CH4_g', 'O': 'H2O_g', 'F': 'FCHO_g'}
+
+atomic_reservoir_list = [{'H': 'CH4_g', 'C': 'FCH2OH_g', 'O': 'H2O_g', 'F': 'FCHO_g'}, {'H': 'H2_g', 'C': 'CH4_g', 'O': 'H2O_g', 'F': 'FCH2OH_g'}, {'H': 'H2_g', 'C': 'CH4_g', 'O': 'H2O_g', 'F': 'FCHO_g'}]
+
+atoms_dict = {}
+
+avoid_scaling = False
+
+coefficient_matrix = array([[ 0.85585   , -0.02896   , -0.29579   ],
+       [ 0.81298   ,  0.62814   ,  0.06518   ],
+       [ 0.98509   ,  0.47523   ,  0.15232   ],
+       [ 1.        ,  0.        ,  0.        ],
+       [ 0.        ,  1.        ,  0.        ],
+       [ 0.90416052,  0.80943818,  0.38005264],
+       [ 0.82177034,  1.2883576 ,  0.53314816],
+       [ 0.99516601,  0.82986366,  0.38571818],
+       [ 0.91271074,  0.63282704,  0.38061005],
+       [ 0.        ,  1.38016224,  0.9452704 ]])
+
+coefficient_maxs = [[1e+99, 1e+99, 1e+99], [1e+99, 1e+99, 1e+99], [1e+99, 1e+99, 1e+99], [1.0, 1e+99, 1e+99], [1e+99, 1.0, 1e+99], [1e+99, 1e+99, 1e+99], [1e+99, 1e+99, 1e+99], [1e+99, 1e+99, 1e+99], [1e+99, 1e+99, 1e+99], [1e+99, 1e+99, 1e+99]]
+
+coefficient_mins = [[0, -1e+99, -1e+99], [0, -1e+99, -1e+99], [0, -1e+99, -1e+99], [1.0, -1e+99, -1e+99], [-1e+99, 1.0, -1e+99], [0, 0, -1e+99], [0, 0, -1e+99], [0, 0, -1e+99], [0, 0, -1e+99], [0, 0, -1e+99]]
+
+coverage_headers = ['coverage', 'coadsorbate_coverage']
+
+data_file = 'furfural_hydro.pkl'
+
+decimal_precision = 200
+
+default_constraints = ['+', '+', None]
+
+default_interaction_constraints = None
+
+descriptor_decimal_precision = 2
+
+descriptor_dict = {'Ag': [0.09, 0.42], 'Au': [-0.03, 0.3], 'Cu': [-0.07, -0.08], 'Ir': [-1.07, -0.17], 'Ni': [-0.99, -0.41], 'Pd': [-0.83, -0.4], 'Pt': [-1.11, -0.31], 'Rh': [-1.35, -0.34], 'Ru': [-1.58, -0.45]}
+
+descriptor_names = ('FCHO_s', 'H_s')
+
+descriptor_ranges = [[-2, 0.5], [-0.6, 0.5]]
+
+echem_transition_state_names = []
+
+electrochemical_thermo_mode = 'simple_electrochemical'
+
+elementary_rxns = ([['s', 'FCHO_g'], ['FCHO_s']], [['FCHO_s', 'H_s'], ['FCHO-H_s', 's'], ['FCHOH_s', 's']], [['FCHO_s', 'H_s'], ['FCH-HO_s', 's'], ['FCH2O_s', 's']], [['FCHOH_s', 'H_s'], ['FCHOH-H_s', 's'], ['FCH2OH_s', 's']], [['FCH2O_s', 'H_s'], ['FCH2O-H_s', 's'], ['FCH2OH_s', 's']], [['FCH2OH_s'], ['FCH2OH_g', 's']], [['H2_g', 's', 's'], ['H-H_s', 's'], ['H_s', 'H_s']], [['H2O_g'], ['H2O_g']], [['CH4_g'], ['CH4_g']])
+
+estimate_frequencies = True
+
+extrapolate_coverages = False
+
+fixed_entropy_dict = {'H2_g': 0.00135, 'other': 0.002}
+
+force_recalculation = False
+
+force_recompilation = False
+
+frequency_dict = {'H2_g': [], 'FCHO_g': [], 'FCH2OH_g': [], 's': [], 'CH4_g': [], 'H2O_g': [], 'FCH2OH_s': [], 'FCH2O_s': [], 'FCHOH_s': [], 'FCHO_s': [], 'H_s': [], 'FCH-HO_s': [], 'FCH2O-H_s': [], 'FCHO-H_s': [], 'FCHOH-H_s': [], 'H-H_s': [], '*_s': [], 'g': [], '*_g': []}
+
+frequency_surface_names = []
+
+frequency_unit_conversion = 0.0001239842
+
+gas_names = ('CH4_g', 'FCH2OH_g', 'FCHO_g', 'H2O_g', 'H2_g')
+
+gas_pressures = [0, 1e-05, 0.003, 0, 1]
+
+gas_thermo_mode = 'frozen_gas'
+
+hbond_dict = {'COOH': -0.25, 'OCHO': 0.0, 'CO': -0.1, 'CHO': -0.1, 'CH2O': 0.0, 'OCH3': 0.0, 'O': 0.0, 'OH': -0.5, 'H': 0.0, 'COH': -0.25, 'C': 0.0, 'CH': 0.0, 'CH2': 0.0, 'CH3': 0.0, 'CHOH': -0.25, 'COHOH': -0.25, 'OCH2O': 0.0, 'CH2OH': -0.25, 'OCHCH2': 0.0, 'OCHCHO': 0.0}
+
+hindered_ads_params = {}
+
+ideal_gas_params = {'H2_g': [2, 'linear', 0], 'N2_g': [2, 'linear', 0], 'O2_g': [2, 'linear', 1.0], 'H2O_g': [2, 'nonlinear', 0], 'CO_g': [1, 'linear', 0], 'CH4_g': [12, 'nonlinear', 0], 'NH3_g': [3, 'nonlinear', 0], 'CH3OH_g': [1, 'nonlinear', 0], 'CH3CH2OH_g': [1, 'nonlinear', 0], 'CO2_g': [2, 'linear', 0], 'CH2O_g': [2, 'nonlinear', 0], 'HCOOH_g': [1, 'nonlinear', 0], 'CH2CH2_g': [4, 'nonlinear', 0], 'CH3CHCH2_g': [1, 'nonlinear', 0], 'CH3CH2CHCH2_g': [1, 'nonlinear', 0], 'CH3CHCHCH3_g': [2, 'nonlinear', 0], 'CH3CH3CCH2_g': [2, 'nonlinear', 0], 'pe_g': [2, 'linear', 0], 'C2H2_g': [2, 'linear', 0], 'C2H4_g': [4, 'nonlinear', 0], 'C2H6_g': [6, 'nonlinear', 0], 'C3H6_g': [1, 'nonlinear', 0], 'CH3COOH_g': [1, 'nonlinear', 0], 'CH3CHO_g': [1, 'nonlinear', 0], 'C5H4O2_g': [1, 'nonlinear', 0], 'C5H6O2_g': [1, 'nonlinear', 0], 'C5H6O_g': [1, 'nonlinear', 0], 'HCl_g': [1, 'linear', 0], 'Cl2_g': [2, 'linear', 0]}
+
+input_file = 'input'
+
+interaction_fitting_mode = None
+
+interaction_surface_names = None
+
+internally_constrain_coverages = True
+
+kBT = mpf('0.0258519974339999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999995')
+
+max_bisections = 5
+
+max_initial_guesses = 3
+
+max_rootfinding_iterations = 500
+
+max_self_interaction = 'Pd'
+
+model_name = 'furfural_hydro_vacuum'
+
+numerical_representation = 'mpmath'
+
+optimize_analytical_expressions = False
+
+output_labels = {'coverage': ('FCH2OH_s', 'FCH2O_s', 'FCHOH_s', 'FCHO_s', 'H_s'), 'rate': ([['s', 'FCHO_g'], ['FCHO_s']], [['FCHO_s', 'H_s'], ['FCHO-H_s', 's'], ['FCHOH_s', 's']], [['FCHO_s', 'H_s'], ['FCH-HO_s', 's'], ['FCH2O_s', 's']], [['FCHOH_s', 'H_s'], ['FCHOH-H_s', 's'], ['FCH2OH_s', 's']], [['FCH2O_s', 'H_s'], ['FCH2O-H_s', 's'], ['FCH2OH_s', 's']], [['FCH2OH_s'], ['FCH2OH_g', 's']], [['H2_g', 's', 's'], ['H-H_s', 's'], ['H_s', 'H_s']], [['H2O_g'], ['H2O_g']], [['CH4_g'], ['CH4_g']]), 'directional_rates': ["[['s', 'FCHO_g'], ['FCHO_s']] forward", "[['FCHO_s', 'H_s'], ['FCHO-H_s', 's'], ['FCHOH_s', 's']] forward", "[['FCHO_s', 'H_s'], ['FCH-HO_s', 's'], ['FCH2O_s', 's']] forward", "[['FCHOH_s', 'H_s'], ['FCHOH-H_s', 's'], ['FCH2OH_s', 's']] forward", "[['FCH2O_s', 'H_s'], ['FCH2O-H_s', 's'], ['FCH2OH_s', 's']] forward", "[['FCH2OH_s'], ['FCH2OH_g', 's']] forward", "[['H2_g', 's', 's'], ['H-H_s', 's'], ['H_s', 'H_s']] forward", "[['H2O_g'], ['H2O_g']] forward", "[['CH4_g'], ['CH4_g']] forward", "[['s', 'FCHO_g'], ['FCHO_s']] reverse", "[['FCHO_s', 'H_s'], ['FCHO-H_s', 's'], ['FCHOH_s', 's']] reverse", "[['FCHO_s', 'H_s'], ['FCH-HO_s', 's'], ['FCH2O_s', 's']] reverse", "[['FCHOH_s', 'H_s'], ['FCHOH-H_s', 's'], ['FCH2OH_s', 's']] reverse", "[['FCH2O_s', 'H_s'], ['FCH2O-H_s', 's'], ['FCH2OH_s', 's']] reverse", "[['FCH2OH_s'], ['FCH2OH_g', 's']] reverse", "[['H2_g', 's', 's'], ['H-H_s', 's'], ['H_s', 'H_s']] reverse", "[['H2O_g'], ['H2O_g']] reverse", "[['CH4_g'], ['CH4_g']] reverse"], 'production_rate': ('CH4_g', 'FCH2OH_g', 'FCHO_g', 'H2O_g', 'H2_g')}
+
+output_variables = ['coverage', 'rate', 'rate', 'directional_rates', 'production_rate', 'coverage']
+
+parameter_dict = {'FCH2OH_s': [-0.11, -0.38, -0.31, -1.36, -0.99, -1.03, -1.66, -1.31, -1.41], 'FCH2O_s': [0.2, 0.67, -0.47, -1.08, -0.98, -0.49, -0.85, -1.19, -1.77], 'FCHOH_s': [0.59, 0.11, 0.1, -1.09, -0.71, -1.1, -1.24, -1.18, -1.63], 'FCHO_s': [0.09, -0.03, -0.07, -1.07, -0.99, -0.83, -1.11, -1.35, -1.58], 'H_s': [0.42, 0.3, -0.08, -0.17, -0.41, -0.4, -0.31, -0.34, -0.45], 'FCH-HO_s': [0.7, 0.69, 0.09, -0.81, -0.84, -0.34, -0.83, -1.13, -1.55], 'FCH2O-H_s': [0.98, 1.22, 0.5, -0.82, -0.89, -0.42, -0.73, -0.93, -1.67], 'FCHO-H_s': [0.87, 0.44, 0.21, -0.86, -0.84, -0.58, -1.05, -1.25, -1.57], 'FCHOH-H_s': [0.86, 0.59, 0.06, -0.84, -0.57, -0.69, -1.09, -0.91, -1.23], 'H-H_s': [1.55, 1.34, 0.82, 0.7, 0.38, 0.4, 0.52, 0.48, 0.33]}
+
+parameter_mode = 'formation_energy'
+
+parameter_names = ('FCH2OH_s', 'FCH2O_s', 'FCHOH_s', 'FCHO_s', 'H_s', 'FCH-HO_s', 'FCH2O-H_s', 'FCHO-H_s', 'FCHOH-H_s', 'H-H_s')
+
+parse_headers = ['formation_energy', 'frequencies']
+
+perturbation_size = 1e-14
+
+prefactor_list = ['10000000000000.0', '10000000000000.0', '10000000000000.0', '10000000000000.0', '10000000000000.0', '10000000000000.0', '10000000000000.0', '10000000000000.0', '10000000000000.0']
+
+pressure_mode = 'static'
+
+required_headers = ['species_name', 'surface_name', 'site_name', 'formation_energy', 'frequencies', 'reference']
+
+residual_threshold = 0.9
+
+resolution = [8, 6]
+
+rxn_expressions = ['* + FCHO_g -> FCHO*', 'FCHO* + H* <-> FCHO-H*+*_s -> FCHOH*+*_s', 'FCHO* + H* <-> FCH-HO*+*_s -> FCH2O*+*_s', 'FCHOH* + H* <-> FCHOH-H*+*_s -> FCH2OH*+*_s', 'FCH2O* + H* <-> FCH2O-H*+*_s-> FCH2OH*+*_s', 'FCH2OH* -> FCH2OH_g + *_s', 'H2_g + 2*_s <-> H-H* + *_s -> 2H*', 'H2O_g -> H2O_g', 'CH4_g -> CH4_g']
+
+rxn_options_dict = {'prefactor': {}, 'beta': {}}
+
+scaling_constraint_dict = {'H_s': [None, 1, None], 'H-H_s': 'BEP', 'FCHO_s': [1, None, None], 'FCHOH_s': ['+', None, None], 'FCH2O_s': ['+', None, None], 'FCH2OH_s': ['+', None, None], 'FCHO-H_s': 'BEP', 'FCH-HO_s': 'BEP', 'FCHOH-H_s': 'BEP', 'FCH2O-H_s': 'BEP'}
+
+search_directions = [[0, 0], [0, 1], [1, 0], [0, -1], [-1, 0], [-1, 1], [1, 1], [1, -1], [-1, -1]]
+
+setup_file = 'furfural_hydro_vacuum.mkm'
+
+shomate_params = {'H2_g:298-1000': [33.066178, -11.363417, 11.432816, -2.772874, -0.158558, -9.980797, 172.707974, 0], 'H2_g:1000-2500': [18.563083, 12.257357, -2.859786, 0.268238, 1.97799, -1.147438, 156.288133, 0], 'H2_g:2500-6000': [43.41356, -4.293079, 1.272428, -0.096876, -20.533862, -38.515158, 162.081354, 0], 'CH4_g:298-1300': [-0.703029, 108.4773, -42.52157, 5.862788, 0.678565, -76.84376, 158.7163, -74.8731], 'CH4_g:1300-1600': [85.81217, 11.26467, -2.114146, 0.13819, -26.42221, -153.5327, 224.4143, -74.8731], 'CO_g:298-1300': [25.56759, 6.09613, 4.054656, -2.671201, 0.131021, -118.0089, 227.3665, -110.5271], 'CO_g:1300-1600': [35.1507, 1.300095, -0.205921, 0.01355, -3.28278, -127.8375, 231.712, -110.5271], 'H2O_g:100-500': [36.303952, -24.11232, 63.64111, -38.9524, -0.01385, -10.23966, 237.39431, 0.0], 'H2O_g:500-1700': [30.092, 6.832514, 6.793435, -2.53448, 0.082139, -250.881, 223.3967, -241.8264], 'H2O_g:1700-6000': [41.96426, 8.622053, -1.49978, 0.098119, -11.15764, -272.1797, 219.7809, -241.8264], 'CO2_g:298-1200': [24.99735, 55.18696, -33.69137, 7.948387, -0.136638, -403.6075, 228.2431, -393.5224], 'CO2_g:1200-6000': [58.16639, 2.720075, -0.492289, 0.038844, -6.447293, -425.9186, 263.6125, -393.5224], 'O2_g:100-700': [31.32234, -20.23531, 57.8664, -36.50624, -0.007374, -8.903471, 246.7945, 0.0], 'O2_g:700-2000': [30.03235, 8.772972, -3.988133, 0.788313, -0.741599, -11.32468, 236.1663, 0.0], 'O2_g:2000-6000': [20.91111, 10.72071, -2.020498, 0.146449, 9.245722, 5.337651, 237.6185, 0.0], 'NH3_g:298-1400': [19.99563, 49.77119, -15.37599, 1.921168, 0.189174, -53.30667, 203.8591, -45.89806], 'N2_g:100-500': [28.98641, 1.853978, -9.647459, 16.63537, 0.000117, -8.671914, 226.4168, 0.0], 'N2_g:500-2000': [19.50583, 19.88705, -8.598535, 1.369784, 0.527601, -4.935202, 212.39, 0.0], 'N2O_g:298-1400': [27.67988, 51.14898, -30.64454, 6.847911, -0.157906, 71.24934, 238.6164, 82.04824], 'NO2_g:298-1200': [16.10857, 75.89525, -54.3874, 14.30777, 0.239423, 26.17464, 240.5386, 33.09502], 'NO_g:298-1200': [23.83491, 12.58878, -1.139011, -1.497459, 0.214194, 83.35783, 237.1219, 90.29114], 'NO3_g:298-1200': [11.22316, 166.3889, -148.4458, 47.40598, -0.176791, 61.00858, 221.7679, 71.128], 'HNO2_g:298-1200': [24.89974, 91.37563, -64.84614, 17.92007, -0.134737, -88.13596, 254.2671, -76.73498], 'HNO3_g:298-1200': [19.63229, 153.9599, -115.8378, 32.87955, -0.249114, -146.8818, 247.7049, -134.306], 'HCN_g:298-1200': [32.69373, 22.59205, -4.369142, -0.407697, -0.282399, 123.4811, 233.2597, 135.1432], 'CH2CH2_g:298-1200': [-6.38788, 184.4019, -112.9718, 28.49593, 0.31554, 48.17332, 163.1568, 52.46694], 'CH2O_g:298-1500': [5.193767, 93.23249, -44.85457, 7.882279, 0.551175, -119.3591, 202.4663, -115.8972], 'CH3OH_g:298-1500': [-1.0845814245433651, 153.2463565199489, -79.53050359618254, 16.47130239316011, 0.5220334601533215, -4.897417024069, 199.1893745506112, 0.0], 'C5H4O2_g:100-1500': [-16.36694, 0.46958, -0.000331925, 8.50912e-08, 198590.9145, -1661.34999, -15.68938, 12461.34999], 'C5H6O2_g:100-1500': [-18.57626, 0.50733, -0.000335824, 8.28263e-08, 231619.2141, -6357.53523, 2.75692, 7057.53523], 'C5H6O_g:50-1500': [1.26847, 0.35388, -0.000173962, 2.87427e-08, 48401.71207, -5691.94893, -85.38991, 7191.94893], 'Cl2_g:298-1000': [33.0506, 12.2294, -12.0651, 4.38533, -0.159494, -10.8348, 259.029, 0.0], 'HCl_g:298-1200': [32.12392, -13.45805, 19.86852, -6.853936, -0.049672, -101.6206, 228.6866, -92.31201], 'CH3CH2OH_g:298-1500': [-4.7367880805894265, 271.96181550301463, -169.34946529216657, 43.73860153608533, 0.24643430702178773, -9.828280829187861, 203.3325622617075, 0.0], 'CH3CHO_g:298-1500': [4.8037386340099095, 185.92002366990326, -99.1084610902012, 20.61473919069016, 0.2770802548558646, -8.566600040790945, 220.00244674443837, 0.0], 'HCOOH_g:298-1500': [3.802752304225226, 153.66217894746168, -84.64046773816926, 16.297377707561505, 0.2772064997263338, -6.16527, 212.9698972559699, 0]}
+
+site_names = ('s', 'g')
+
+species_definitions = {'H2_g': {'name': 'H2', 'site': 'g', 'type': 'gas', 'n_sites': 0, 'composition': {'H': 2}, 'pressure': 1, 'formation_energy': 0.0, 'formation_energy_source': '[]', 'frequencies': []}, 'FCHO_g': {'name': 'FCHO', 'site': 'g', 'type': 'gas', 'n_sites': 0, 'composition': {'H': 1, 'C': 1, 'O': 1, 'F': 1}, 'pressure': 0.003, 'formation_energy': 0.0, 'formation_energy_source': '[]', 'frequencies': []}, 'FCH2OH_g': {'name': 'FCH2OH', 'site': 'g', 'type': 'gas', 'n_sites': 0, 'composition': {'H': 3, 'C': 1, 'O': 1, 'F': 1}, 'pressure': 1e-05, 'formation_energy': -0.13, 'formation_energy_source': '[]', 'frequencies': []}, 's': {'name': 's', 'site': 's', 'type': 'site', 'formation_energy': 0, 'n_sites': 1, 'composition': {}, 'site_names': ['111'], 'total': 1, 'frequencies': []}, 'CH4_g': {'name': 'CH4', 'site': 'g', 'type': 'gas', 'n_sites': 0, 'composition': {'H': 4, 'C': 1}, 'pressure': 0, 'formation_energy': 0.0, 'formation_energy_source': '[]', 'frequencies': []}, 'H2O_g': {'name': 'H2O', 'site': 'g', 'type': 'gas', 'n_sites': 0, 'composition': {'H': 2, 'O': 1}, 'pressure': 0, 'formation_energy': 0.0, 'formation_energy_source': '[]', 'frequencies': []}, 'FCH2OH_s': {'name': 'FCH2OH', 'site': 's', 'type': 'adsorbate', 'n_sites': 1, 'composition': {'H': 3, 'C': 1, 'O': 1, 'F': 1}, 'formation_energy': [-0.11, -0.38, -0.31, -1.36, -0.99, -1.03, -1.66, -1.31, -1.41], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'FCH2O_s': {'name': 'FCH2O', 'site': 's', 'type': 'adsorbate', 'n_sites': 1, 'composition': {'H': 2, 'C': 1, 'O': 1, 'F': 1}, 'formation_energy': [0.2, 0.67, -0.47, -1.08, -0.98, -0.49, -0.85, -1.19, -1.77], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'FCHOH_s': {'name': 'FCHOH', 'site': 's', 'type': 'adsorbate', 'n_sites': 1, 'composition': {'H': 2, 'C': 1, 'O': 1, 'F': 1}, 'formation_energy': [0.59, 0.11, 0.1, -1.09, -0.71, -1.1, -1.24, -1.18, -1.63], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'FCHO_s': {'name': 'FCHO', 'site': 's', 'type': 'adsorbate', 'n_sites': 1, 'composition': {'H': 1, 'C': 1, 'O': 1, 'F': 1}, 'formation_energy': [0.09, -0.03, -0.07, -1.07, -0.99, -0.83, -1.11, -1.35, -1.58], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'H_s': {'name': 'H', 'site': 's', 'type': 'adsorbate', 'n_sites': 1, 'composition': {'H': 1}, 'formation_energy': [0.42, 0.3, -0.08, -0.17, -0.41, -0.4, -0.31, -0.34, -0.45], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'FCH-HO_s': {'name': 'FCH-HO', 'site': 's', 'type': 'transition_state', 'n_sites': 1, 'composition': {'H': 2, 'C': 1, 'O': 1, 'F': 1}, 'formation_energy': [0.7, 0.69, 0.09, -0.81, -0.84, -0.34, -0.83, -1.13, -1.55], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'FCH2O-H_s': {'name': 'FCH2O-H', 'site': 's', 'type': 'transition_state', 'n_sites': 1, 'composition': {'H': 3, 'C': 1, 'O': 1, 'F': 1}, 'formation_energy': [0.98, 1.22, 0.5, -0.82, -0.89, -0.42, -0.73, -0.93, -1.67], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'FCHO-H_s': {'name': 'FCHO-H', 'site': 's', 'type': 'transition_state', 'n_sites': 1, 'composition': {'H': 2, 'C': 1, 'O': 1, 'F': 1}, 'formation_energy': [0.87, 0.44, 0.21, -0.86, -0.84, -0.58, -1.05, -1.25, -1.57], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'FCHOH-H_s': {'name': 'FCHOH-H', 'site': 's', 'type': 'transition_state', 'n_sites': 1, 'composition': {'H': 3, 'C': 1, 'O': 1, 'F': 1}, 'formation_energy': [0.86, 0.59, 0.06, -0.84, -0.57, -0.69, -1.09, -0.91, -1.23], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, 'H-H_s': {'name': 'H-H', 'site': 's', 'type': 'transition_state', 'n_sites': 1, 'composition': {'H': 2}, 'formation_energy': [1.55, 1.34, 0.82, 0.7, 0.38, 0.4, 0.52, 0.48, 0.33], 'formation_energy_source': ['[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]', '[]'], 'frequencies': []}, '*_s': {'name': 's', 'site': 's', 'type': 'site', 'formation_energy': 0, 'n_sites': 1, 'composition': {}, 'site_names': ['111'], 'total': 1, 'frequencies': []}, 'g': {'name': 'g', 'site': 'g', 'type': 'site', 'formation_energy': 0, 'n_sites': 0, 'site_names': ['gas'], 'total': 0, 'composition': {}, 'frequencies': []}, '*_g': {'name': 'g', 'site': 'g', 'type': 'site', 'formation_energy': 0, 'n_sites': 0, 'site_names': ['gas'], 'total': 0, 'composition': {}, 'frequencies': []}}
+
+standard_coadsorbate_coverage = 'min'
+
+standard_coverage = 'min'
+
+surface_names = ('Ag', 'Au', 'Cu', 'Ir', 'Ni', 'Pd', 'Pt', 'Rh', 'Ru')
+
+temperature = 300
+
+thermodynamic_corrections = ['gas', 'adsorbate']
+
+thermodynamic_variables = ['temperature', 'gas_pressures', 'voltage', 'beta', 'pH', 'Upzc', 'gas_thermo_mode', 'adsorbate_thermo_mode']
+
+tolerance = 1e-50
+
+total_coefficient_dict = {'FCH2OH_s': array([ 0.85585, -0.02896, -0.29579]), 'FCH2O_s': array([0.81298, 0.62814, 0.06518]), 'FCHOH_s': array([0.98509, 0.47523, 0.15232]), 'FCHO_s': array([1., 0., 0.]), 'H_s': array([0., 1., 0.]), 'FCH-HO_s': array([1.04524, 0.47734, 0.43571]), 'FCH2O-H_s': array([1.21434, 0.75388, 0.75034]), 'FCHO-H_s': array([1.10845, 0.50915, 0.42175]), 'FCHOH-H_s': array([0.74137, 0.94494, 0.29842]), 'H-H_s': array([0.     , 1.38016, 0.94527])}
+
+transition_state_coefficient_matrix = array([[0.90416052, 0.80943818, 0.38005264],
+       [0.82177034, 1.2883576 , 0.53314816],
+       [0.99516601, 0.82986366, 0.38571818],
+       [0.91271074, 0.63282704, 0.38061005],
+       [0.        , 1.38016224, 0.9452704 ]])
+
+transition_state_cross_interaction_mode = 'transition_state_scaling'
+
+transition_state_names = ('FCH-HO_s', 'FCH2O-H_s', 'FCHO-H_s', 'FCHOH-H_s', 'H-H_s')
+
+transition_state_scaling_coefficients = [[0.5124558036165267, 0.346650772805334], [0.20504640371229702, 0.5419837587006958], [0.32421126024054375, 0.3363343210737319], [0.5600376025428087, 0.47924849716294715], [0.6900811209439532, 0.9452704031465095]]
+
+transition_state_scaling_matrix = array([[0.        , 0.5124558 , 0.        , 0.4875442 , 0.4875442 ,
+        0.34665077],
+       [0.2050464 , 0.7949536 , 0.        , 0.        , 0.7949536 ,
+        0.54198376],
+       [0.        , 0.        , 0.32421126, 0.67578874, 0.67578874,
+        0.33633432],
+       [0.5600376 , 0.        , 0.4399624 , 0.        , 0.4399624 ,
+        0.4792485 ],
+       [0.        , 0.        , 0.        , 0.        , 1.38016224,
+        0.9452704 ]])
+
+transition_state_scaling_mode = 'initial_state'
+
+transition_state_scaling_parameters = {}
+
+verbose = 1
+
+stdout = """initial_evaluation: success - initial guess at point [ 0.50, 0.50]
+initial_evaluation: invalid - initial guess at point [ 0.50, 0.34]
+initial_evaluation: invalid - initial guess at point [ 0.50, 0.19]
+initial_evaluation: invalid - initial guess at point [ 0.50, 0.03]
+initial_evaluation: invalid - initial guess at point [ 0.50,-0.13]
+initial_evaluation: invalid - initial guess at point [ 0.50,-0.29]
+initial_evaluation: invalid - initial guess at point [ 0.50,-0.44]
+initial_evaluation: success - initial guess at point [ 0.50,-0.60]
+initial_evaluation: invalid - initial guess at point [ 0.22, 0.50]
+initial_evaluation: invalid - initial guess at point [ 0.22, 0.34]
+initial_evaluation: invalid - initial guess at point [ 0.22, 0.19]
+initial_evaluation: invalid - initial guess at point [ 0.22, 0.03]
+initial_evaluation: invalid - initial guess at point [ 0.22,-0.13]
+initial_evaluation: invalid - initial guess at point [ 0.22,-0.29]
+initial_evaluation: invalid - initial guess at point [ 0.22,-0.44]
+initial_evaluation: invalid - initial guess at point [ 0.22,-0.60]
+initial_evaluation: invalid - initial guess at point [-0.06, 0.50]
+initial_evaluation: invalid - initial guess at point [-0.06, 0.34]
+initial_evaluation: invalid - initial guess at point [-0.06, 0.19]
+initial_evaluation: invalid - initial guess at point [-0.06, 0.03]
+initial_evaluation: invalid - initial guess at point [-0.06,-0.13]
+initial_evaluation: invalid - initial guess at point [-0.06,-0.29]
+initial_evaluation: invalid - initial guess at point [-0.06,-0.44]
+initial_evaluation: invalid - initial guess at point [-0.06,-0.60]
+initial_evaluation: invalid - initial guess at point [-0.33, 0.50]
+initial_evaluation: invalid - initial guess at point [-0.33, 0.34]
+initial_evaluation: invalid - initial guess at point [-0.33, 0.19]
+initial_evaluation: invalid - initial guess at point [-0.33, 0.03]
+initial_evaluation: invalid - initial guess at point [-0.33,-0.13]
+initial_evaluation: invalid - initial guess at point [-0.33,-0.29]
+initial_evaluation: invalid - initial guess at point [-0.33,-0.44]
+initial_evaluation: invalid - initial guess at point [-0.33,-0.60]
+initial_evaluation: invalid - initial guess at point [-0.61, 0.50]
+initial_evaluation: invalid - initial guess at point [-0.61, 0.34]
+initial_evaluation: invalid - initial guess at point [-0.61, 0.19]
+initial_evaluation: invalid - initial guess at point [-0.61, 0.03]
+initial_evaluation: invalid - initial guess at point [-0.61,-0.13]
+initial_evaluation: invalid - initial guess at point [-0.61,-0.29]
+initial_evaluation: invalid - initial guess at point [-0.61,-0.44]
+initial_evaluation: invalid - initial guess at point [-0.61,-0.60]
+initial_evaluation: invalid - initial guess at point [-0.89, 0.50]
+initial_evaluation: invalid - initial guess at point [-0.89, 0.34]
+initial_evaluation: invalid - initial guess at point [-0.89, 0.19]
+initial_evaluation: invalid - initial guess at point [-0.89, 0.03]
+initial_evaluation: invalid - initial guess at point [-0.89,-0.13]
+initial_evaluation: invalid - initial guess at point [-0.89,-0.29]
+initial_evaluation: invalid - initial guess at point [-0.89,-0.44]
+initial_evaluation: invalid - initial guess at point [-0.89,-0.60]
+initial_evaluation: invalid - initial guess at point [-1.17, 0.50]
+initial_evaluation: invalid - initial guess at point [-1.17, 0.34]
+initial_evaluation: invalid - initial guess at point [-1.17, 0.19]
+initial_evaluation: invalid - initial guess at point [-1.17, 0.03]
+initial_evaluation: invalid - initial guess at point [-1.17,-0.13]
+initial_evaluation: invalid - initial guess at point [-1.17,-0.29]
+initial_evaluation: invalid - initial guess at point [-1.17,-0.44]
+initial_evaluation: invalid - initial guess at point [-1.17,-0.60]
+initial_evaluation: invalid - initial guess at point [-1.44, 0.50]
+initial_evaluation: invalid - initial guess at point [-1.44, 0.34]
+initial_evaluation: invalid - initial guess at point [-1.44, 0.19]
+initial_evaluation: invalid - initial guess at point [-1.44, 0.03]
+initial_evaluation: invalid - initial guess at point [-1.44,-0.13]
+initial_evaluation: invalid - initial guess at point [-1.44,-0.29]
+initial_evaluation: invalid - initial guess at point [-1.44,-0.44]
+initial_evaluation: invalid - initial guess at point [-1.44,-0.60]
+initial_evaluation: invalid - initial guess at point [-1.72, 0.50]
+initial_evaluation: invalid - initial guess at point [-1.72, 0.34]
+initial_evaluation: invalid - initial guess at point [-1.72, 0.19]
+initial_evaluation: invalid - initial guess at point [-1.72, 0.03]
+initial_evaluation: invalid - initial guess at point [-1.72,-0.13]
+initial_evaluation: invalid - initial guess at point [-1.72,-0.29]
+initial_evaluation: invalid - initial guess at point [-1.72,-0.44]
+initial_evaluation: invalid - initial guess at point [-1.72,-0.60]
+initial_evaluation: success - initial guess at point [-2.00, 0.50]
+initial_evaluation: invalid - initial guess at point [-2.00, 0.34]
+initial_evaluation: invalid - initial guess at point [-2.00, 0.19]
+initial_evaluation: invalid - initial guess at point [-2.00, 0.03]
+initial_evaluation: invalid - initial guess at point [-2.00,-0.13]
+initial_evaluation: invalid - initial guess at point [-2.00,-0.29]
+initial_evaluation: invalid - initial guess at point [-2.00,-0.44]
+initial_evaluation: success - initial guess at point [-2.00,-0.60]
+mapper_iteration_0: status - 44 points do not have valid solution.
+minresid_iteration_0: success - [ 0.50, 0.28] using coverages from [ 0.50, 0.28]
+minresid_iteration_0: success - [ 0.50, 0.06] using coverages from [ 0.50, 0.06]
+minresid_iteration_0: success - [ 0.50,-0.16] using coverages from [ 0.50,-0.16]
+minresid_iteration_0: success - [ 0.50,-0.38] using coverages from [ 0.50,-0.38]
+minresid_iteration_0: success - [ 0.14, 0.50] using coverages from [ 0.14, 0.50]
+minresid_iteration_0: success - [ 0.14, 0.28] using coverages from [ 0.14, 0.28]
+minresid_iteration_0: success - [ 0.14, 0.06] using coverages from [ 0.14, 0.06]
+rootfinding_iteration_4: fail - stagnated or diverging (residual = 5.6902844404724845e-05)
+minresid_iteration_0: fail - [ 0.14,-0.16] using coverages from [ 0.14,-0.16]; initial residual was 1298698563135.2778 (residual = 5.6902844404724845e-05)
+minresid_iteration_1: success - [ 0.14,-0.16] using coverages from [ 0.14, 0.06]
+rootfinding_iteration_3: fail - stagnated or diverging (residual = 2.912823964182475e-07)
+minresid_iteration_0: fail - [ 0.14,-0.38] using coverages from [ 0.14,-0.38]; initial residual was 631060224.5225592 (residual = 2.912823964182475e-07)
+minresid_iteration_1: success - [ 0.14,-0.38] using coverages from [ 0.14,-0.16]
+minresid_iteration_0: success - [ 0.14,-0.60] using coverages from [ 0.14,-0.60]
+minresid_iteration_0: success - [-0.21, 0.50] using coverages from [-0.21, 0.50]
+minresid_iteration_0: success - [-0.21, 0.28] using coverages from [-0.21, 0.28]
+minresid_iteration_0: success - [-0.21, 0.06] using coverages from [-0.21, 0.06]
+rootfinding_iteration_4: fail - stagnated or diverging (residual = 5.6902844404724845e-05)
+minresid_iteration_0: fail - [-0.21,-0.16] using coverages from [-0.21,-0.16]; initial residual was 16282826.740930801 (residual = 5.6902844404724845e-05)
+minresid_iteration_1: success - [-0.21,-0.16] using coverages from [-0.21, 0.06]
+rootfinding_iteration_4: fail - stagnated or diverging (residual = 2.912823964182475e-07)
+minresid_iteration_0: fail - [-0.21,-0.38] using coverages from [-0.21,-0.38]; initial residual was 19982423.817654762 (residual = 2.912823964182475e-07)
+minresid_iteration_1: success - [-0.21,-0.38] using coverages from [-0.21,-0.16]
+rootfinding_iteration_3: fail - stagnated or diverging (residual = 1.4910578785779083e-09)
+minresid_iteration_0: fail - [-0.21,-0.60] using coverages from [-0.21,-0.60]; initial residual was 125039.07124599293 (residual = 1.4910578785779083e-09)
+minresid_iteration_1: success - [-0.21,-0.60] using coverages from [-0.21,-0.38]
+minresid_iteration_0: success - [-0.57, 0.50] using coverages from [-0.57, 0.50]
+minresid_iteration_0: success - [-0.57, 0.28] using coverages from [-0.57, 0.28]
+minresid_iteration_0: success - [-0.57, 0.06] using coverages from [-0.57, 0.06]
+minresid_iteration_0: success - [-0.57,-0.16] using coverages from [-0.57,-0.16]
+minresid_iteration_0: success - [-0.57,-0.38] using coverages from [-0.57,-0.38]
+minresid_iteration_0: success - [-0.57,-0.60] using coverages from [-0.57,-0.60]
+minresid_iteration_0: success - [-0.93, 0.50] using coverages from [-0.93, 0.50]
+minresid_iteration_0: success - [-0.93, 0.28] using coverages from [-0.93, 0.28]
+minresid_iteration_0: success - [-0.93, 0.06] using coverages from [-0.93, 0.06]
+minresid_iteration_0: success - [-0.93,-0.16] using coverages from [-0.93,-0.16]
+rootfinding_iteration_2: fail - stagnated or diverging (residual = 0.0009272312092924134)
+minresid_iteration_0: fail - [-0.93,-0.38] using coverages from [-0.93,-0.38]; initial residual was 0.0011074916391529213 (residual = 0.0009272312092924134)
+minresid_iteration_1: success - [-0.93,-0.38] using coverages from [-0.93,-0.16]
+rootfinding_iteration_5: fail - stagnated or diverging (residual = 7.303577303674621e-05)
+minresid_iteration_0: fail - [-0.93,-0.60] using coverages from [-0.93,-0.60]; initial residual was 0.0006655022659071403 (residual = 7.303577303674621e-05)
+minresid_iteration_1: success - [-0.93,-0.60] using coverages from [-0.93,-0.38]
+minresid_iteration_0: success - [-1.29, 0.50] using coverages from [-1.29, 0.50]
+minresid_iteration_0: success - [-1.29, 0.28] using coverages from [-1.29, 0.28]
+minresid_iteration_0: success - [-1.29, 0.06] using coverages from [-1.29, 0.06]
+minresid_iteration_0: success - [-1.29,-0.16] using coverages from [-1.29,-0.16]
+minresid_iteration_0: success - [-1.29,-0.38] using coverages from [-1.29,-0.38]
+minresid_iteration_0: success - [-1.29,-0.60] using coverages from [-1.29,-0.60]
+minresid_iteration_0: success - [-1.64, 0.50] using coverages from [-1.64, 0.50]
+minresid_iteration_0: success - [-1.64, 0.28] using coverages from [-1.64, 0.28]
+minresid_iteration_0: success - [-1.64, 0.06] using coverages from [-1.64, 0.06]
+minresid_iteration_0: success - [-1.64,-0.16] using coverages from [-1.64,-0.16]
+minresid_iteration_0: success - [-1.64,-0.38] using coverages from [-1.64,-0.38]
+minresid_iteration_0: success - [-1.64,-0.60] using coverages from [-1.64,-0.60]
+minresid_iteration_0: success - [-2.00, 0.28] using coverages from [-2.00, 0.28]
+minresid_iteration_0: success - [-2.00, 0.06] using coverages from [-2.00, 0.06]
+minresid_iteration_0: success - [-2.00,-0.16] using coverages from [-2.00,-0.16]
+minresid_iteration_0: success - [-2.00,-0.38] using coverages from [-2.00,-0.38]
+mapper_iteration_1: status - 0 points do not have valid solution.
+initial_evaluation: success - initial guess at point [ 0.50, 0.50]
+initial_evaluation: success - initial guess at point [ 0.50, 0.28]
+initial_evaluation: success - initial guess at point [ 0.50, 0.06]
+initial_evaluation: success - initial guess at point [ 0.50,-0.16]
+initial_evaluation: success - initial guess at point [ 0.50,-0.38]
+initial_evaluation: success - initial guess at point [ 0.50,-0.60]
+initial_evaluation: success - initial guess at point [ 0.14, 0.50]
+initial_evaluation: success - initial guess at point [ 0.14, 0.28]
+initial_evaluation: success - initial guess at point [ 0.14, 0.06]
+initial_evaluation: success - initial guess at point [ 0.14,-0.16]
+initial_evaluation: success - initial guess at point [ 0.14,-0.38]
+initial_evaluation: success - initial guess at point [ 0.14,-0.60]
+initial_evaluation: success - initial guess at point [-0.21, 0.50]
+initial_evaluation: success - initial guess at point [-0.21, 0.28]
+initial_evaluation: success - initial guess at point [-0.21, 0.06]
+initial_evaluation: success - initial guess at point [-0.21,-0.16]
+initial_evaluation: success - initial guess at point [-0.21,-0.38]
+initial_evaluation: success - initial guess at point [-0.21,-0.60]
+initial_evaluation: success - initial guess at point [-0.57, 0.50]
+initial_evaluation: success - initial guess at point [-0.57, 0.28]
+initial_evaluation: success - initial guess at point [-0.57, 0.06]
+initial_evaluation: success - initial guess at point [-0.57,-0.16]
+initial_evaluation: success - initial guess at point [-0.57,-0.38]
+initial_evaluation: success - initial guess at point [-0.57,-0.60]
+initial_evaluation: success - initial guess at point [-0.93, 0.50]
+initial_evaluation: success - initial guess at point [-0.93, 0.28]
+initial_evaluation: success - initial guess at point [-0.93, 0.06]
+initial_evaluation: success - initial guess at point [-0.93,-0.16]
+initial_evaluation: success - initial guess at point [-0.93,-0.38]
+initial_evaluation: success - initial guess at point [-0.93,-0.60]
+initial_evaluation: success - initial guess at point [-1.29, 0.50]
+initial_evaluation: success - initial guess at point [-1.29, 0.28]
+initial_evaluation: success - initial guess at point [-1.29, 0.06]
+initial_evaluation: success - initial guess at point [-1.29,-0.16]
+initial_evaluation: success - initial guess at point [-1.29,-0.38]
+initial_evaluation: success - initial guess at point [-1.29,-0.60]
+initial_evaluation: success - initial guess at point [-1.64, 0.50]
+initial_evaluation: success - initial guess at point [-1.64, 0.28]
+initial_evaluation: success - initial guess at point [-1.64, 0.06]
+initial_evaluation: success - initial guess at point [-1.64,-0.16]
+initial_evaluation: success - initial guess at point [-1.64,-0.38]
+initial_evaluation: success - initial guess at point [-1.64,-0.60]
+initial_evaluation: success - initial guess at point [-2.00, 0.50]
+initial_evaluation: success - initial guess at point [-2.00, 0.28]
+initial_evaluation: success - initial guess at point [-2.00, 0.06]
+initial_evaluation: success - initial guess at point [-2.00,-0.16]
+initial_evaluation: success - initial guess at point [-2.00,-0.38]
+initial_evaluation: success - initial guess at point [-2.00,-0.60]
+mapper_iteration_0: status - 0 points do not have valid solution."""
